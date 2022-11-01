@@ -1,0 +1,106 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "Allow CDN IPs to access S3 as origin and application to download files from S3",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "*"
+            },
+            "Action": "s3:GetObject",
+            "Resource": "arn:aws:s3:::test-form-submission/*",
+            "Condition": {
+                "StringLike": {
+                    "aws:SourceVpce": "vpce-06d97ce476fad3912"
+                },
+                "IpAddress": {
+                    "aws:SourceIp": [
+                        "202.27.31.225/32",
+                        "202.27.31.227/32",
+                        "202.27.26.162/32",
+                        "202.27.26.165/32",
+                        "203.117.75.3/32",
+                        "152.199.0.0/16",
+                        "5.104.64.0/21",
+                        "46.22.64.0/20",
+                        "61.49.62.128/25",
+                        "61.221.181.64/26",
+                        "65.198.79.64/26",
+                        "65.199.146.192/26",
+                        "65.200.46.128/26",
+                        "65.200.151.160/27",
+                        "65.200.157.192/27",
+                        "65.222.137.0/26",
+                        "65.222.145.128/26",
+                        "68.130.0.0/17",
+                        "68.130.128.0/24",
+                        "68.130.136.0/21",
+                        "68.140.206.0/23",
+                        "68.232.32.0/20",
+                        "72.21.80.0/20",
+                        "88.194.45.128/26",
+                        "93.184.208.0/20",
+                        "101.226.203.0/24",
+                        "108.161.240.0/20",
+                        "110.232.176.0/22",
+                        "117.18.232.0/21",
+                        "117.103.183.0/24",
+                        "120.132.137.0/25",
+                        "121.156.59.224/27",
+                        "121.189.46.0/23",
+                        "152.190.247.0/24",
+                        "152.195.0.0/16",
+                        "180.240.184.0/24",
+                        "192.16.0.0/18",
+                        "192.30.0.0/19",
+                        "192.229.128.0/17",
+                        "194.255.210.64/26",
+                        "198.7.16.0/20",
+                        "203.74.4.64/26",
+                        "213.64.234.0/26",
+                        "213.65.58.0/24",
+                        "213.175.80.0/24"
+                    ]
+                }
+            }
+        },
+        {
+            "Sid": "Allow ALB logs to be written into S3",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "arn:aws:iam::565040840361:root"
+            },
+            "Action": "s3:PutObject",
+            "Resource": "arn:aws:s3:::test-form-submission/alblogs/AWSLogs/139405797380/*"
+        },
+        {
+            "Sid": "Allow IAM User to access bucket from iNET wired wireless and VPN workstations only",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "*"
+            },
+            "Action": [
+                "s3:ListBucket",
+                "s3:GetObject",
+                "s3:GetObjectAcl",
+                "s3:PutObject",
+                "s3:PutObjectAcl"
+            ],
+            "Resource": [
+                "arn:aws:s3:::test-form-submission",
+                "arn:aws:s3:::test-form-submission/*"
+            ],
+            "Condition": {
+                "IpAddress": {
+                    "aws:SourceIp": [
+                        "202.27.31.225/32",
+                        "202.27.31.227/32",
+                        "203.117.75.3/32",
+                        "202.27.26.162/32",
+                        "202.27.26.165/32"
+                    ]
+                }
+            }
+        }
+    ]
+}

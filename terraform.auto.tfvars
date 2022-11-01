@@ -14,7 +14,7 @@ aws_profile = "default"
 #VPC
 #vpcid = ""
 #sandboxVPC
-vpcid = ""
+vpcid = "vpc-0838d2a8456b987e4"
 
 #SUBNET-ID
 db_subnet_a1    = "dbSubnetA1"
