@@ -144,14 +144,25 @@ data "aws_security_group" "Sg-db" {
 ##### S3 bucket policy for frontend static website #####
 ########################################################
 
-data "aws_iam_policy_document" "s3_policy" {
-  version = "2012-10-17"
+data "template_file" "bucket_policy" {
+  template = fileexists("${path.module}/./modules/templates/s3_policy.tpl.json") ? file("${path.module}/./modules/templates/s3_policy.tpl.json") : ""
+
+  vars = {
+    bucket = "test-form-submission"
+  }
+}
+
+##############
+# IAM Role for lambda fucntion
+#############
+
+data "aws_iam_policy_document" "lambda-assume-role-policy" {
   statement {
-    actions   = ["s3:GetObject"]
-    resources = ["${module.s3_bucket.s3_bucket_arn}/*"]
+    actions = ["sts:AssumeRole"]
+
     principals {
-      type        = "AWS"
-      identifiers = module.cdn.cloudfront_origin_access_identity_iam_arns
+      type        = "Service"
+      identifiers = ["lambda.amazonaws.com"]
     }
   }
 }

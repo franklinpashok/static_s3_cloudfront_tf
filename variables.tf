@@ -164,3 +164,20 @@ variable "Sg-db" {
   default     = ""
 }
 
+###########
+# S3 variables
+###########
+
+variable "s3_cors_rule" {
+  description = "Map containing a rule of Cross-Origin Resource Sharing."
+  type        = any # should be `map`, but it produces an error "all map elements must have the same type"
+  default = {
+    allowed_headers = ["*"]
+    allowed_methods = ["PUT", "POST", "GET", "DELETE"]
+    #allowed_origins = ["msdx-dev.sph.com.sg"]  #acm domain name, confirm
+    allowed_origins = ["*.sph.com.sg"]
+    expose_headers  = ["ETag"]
+    max_age_seconds = 3000
+  }
+}
+
